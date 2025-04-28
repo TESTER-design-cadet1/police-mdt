@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPDFR MDT</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="mdt-container">
+        <header>
+            <h1>LSPDFR Mobile Data Terminal</h1>
+            <nav>
+                <button id="dispatch-btn">Dispatch</button>
+                <button id="vehicle-btn">Vehicle Lookup</button>
+                <button id="bolo-btn">BOLOs</button>
+                <button id="incident-btn">Incidents</button>
+            </nav>
+        </header>
+        <main>
+            <section id="dispatch" class="mdt-section">
+                <h2>Dispatch</h2>
+                <form id="dispatch-form">
+                    <label for="caller">Caller:</label>
+                    <input type="text" id="caller" name="caller" required>
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location">
+                    <label for="description">Call Description:</label>
+                    <textarea id="description" name="description" required></textarea>
+                    <button type="submit">Log Call</button>
+                </form>
+                <div id="dispatch-log"></div>
+            </section>
+            <section id="vehicle" class="mdt-section">
+                <h2>Vehicle Lookup</h2>
+                <form id="vehicle-form">
+                    <label for="plate">License Plate:</label>
+                    <input type="text" id="plate" name="plate" required>
+                    <button type="submit">Search</button>
+                </form>
+                <div id="vehicle-info"></div>
+            </section>
+            <section id="bolo" class="mdt-section">
+                <h2>BOLOs</h2>
+                <form id="bolo-form">
+                    <label for="bolo-description">Description:</label>
+                    <textarea id="bolo-description" name="bolo-description" required></textarea>
+                    <button type="submit">Add BOLO</button>
+                </form>
+                <div id="bolo-list"></div>
+            </section>
+            <section id="incident" class="mdt-section">
+                <h2>Incident Reporting</h2>
+                <form id="incident-form">
+                    <label for="incident-type">Incident Type:</label>
+                    <input type="text" id="incident-type" name="incident-type" required>
+                    <label for="incident-location">Location:</label>
+                    <input type="text" id="incident-location" name="incident-location" required>
+                    <label for="incident-parties">Involved Parties:</label>
+                    <textarea id="incident-parties" name="incident-parties"></textarea>
+                    <button type="submit">Report Incident</button>
+                </form>
+                <div id="incident-log"></div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
