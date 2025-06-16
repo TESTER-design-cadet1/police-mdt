@@ -1,41 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Dashboard from "./components/Dashboard";
 
 function App() {
-  const [units, setUnits] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState(null);
+  const [isRegistering, setIsRegistering] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:4000/api/units")
-      .then(res => res.json())
-      .then(setUnits);
-  }, []);
+    if (token) {
+      localStorage.setItem("token", token);
+    } else {
+      localStorage.removeItem("token");
+    }
+  }, [token]);
 
-  const updateStatus = (id, status) => {
-    fetch(`http://localhost:4000/api/units/${id}/status`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status })
-    })
-      .then(res => res.json())
-      .then(updated => setUnits(units.map(u => u.id === updated.id ? updated : u)));
+  const handleLogin = (token, user) => {
+    setToken(token);
+    setUser(user);
   };
 
+  const handleLogout = () => {
+    setToken(null);
+    setUser(null);
+  };
+
+  if (!token) {
+    return (
+      <div>
+        {isRegistering ? (
+          <Register onRegister={() => setIsRegistering(false)} />
+        ) : (
+          <Login onLogin={handleLogin} />
+        )}
+        <button onClick={() => setIsRegistering(true)}>
+          {isRegistering ? "Back to Login" : "Register"}
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div style={{padding: 20}}>
-      <h1>Police MDT - Unit Status</h1>
-      {units.map(unit => (
-        <div key={unit.id} style={{marginBottom: 10}}>
-          <span>{unit.name}: <b>{unit.status}</b></span>
-          <select
-            value={unit.status}
-            onChange={e => updateStatus(unit.id, e.target.value)}
-            style={{marginLeft: 10}}
-          >
-            <option>Available</option>
-            <option>Busy</option>
-            <option>On Call</option>
-          </select>
-        </div>
-      ))}
+    <div>
+      <Dashboard user={user} />
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }
